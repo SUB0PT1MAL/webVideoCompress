@@ -1,0 +1,42 @@
+<!doctype html>
+<html>
+  <head>
+    <title>Chibify</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/x-icon" href="static/favicon.ico">
+    <link rel="stylesheet" type="text/css" href="static/style.css">
+  </head>
+  <body>
+    <h1>Chibify</h1>
+    <form method="POST" enctype="multipart/form-data">
+      <div class="target-size-box">
+        <label for="target-size">Select target size:</label>
+        <div class="target-size-options">
+          <input type="radio" name="target_size" value="8"> 8 MB
+          <input checked type="radio" name="target_size" value="25"> 25 MB
+          <input type="radio" name="target_size" value="50"> 50 MB
+          <input type="radio" name="target_size" value="100"> 100 MB
+        </div>
+      </div>
+      <div class="file-input-wrapper">
+        <label class="file-input-label" for="file-input">Choose a file</label>
+        <input type="file" name="file" id="file-input" onchange="document.querySelector('#compress-btn').style.display = this.value ? 'inline-block' : 'none'; document.querySelector('#selected-file').textContent = this.value.split(/(\\|\/)/g).pop();">
+        <span id="selected-file" class="selected-file"></span>
+        <input type="submit" id="compress-btn" class="compress-btn" value="Compress" style="display:none;">
+      </div>
+      <div id="loading" style="display:none;"><img src="/static/loading.gif" alt="Loading..."></div>
+    </form>
+    {% if download_link %}
+      <div class="download-box">
+        <form method="get" action="{{ download_link }}">
+          <button type="submit" class="download-btn">{{ download_filename }} ({{ download_size }})</button>
+        </form>
+      </div>
+    {% endif %}
+    <script>
+      document.querySelector('form').addEventListener('submit', function() {
+        document.querySelector('#loading').style.display = 'block';
+      });
+    </script>
+  </body>
+</html>
